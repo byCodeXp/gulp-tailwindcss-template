@@ -2,6 +2,12 @@
 @tailwind utilities;
 @tailwind components;
 
-html, body {
+@font-face {
+   font-family: Poppins, sans-serif;
+   src: url('fonts/Poppins-Regular.ttf');
+}
+
+html,
+body {
    height: 100%;
 }
