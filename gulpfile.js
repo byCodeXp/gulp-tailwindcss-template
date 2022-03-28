@@ -7,6 +7,7 @@ const browserSync = require('browser-sync').create();
 
 function browserServe(done) {
    browserSync.init({
+      open: false,
       server: 'dist',
       injectChanges: true,
       port: 1234
@@ -34,10 +35,15 @@ function css() {
       .pipe(browserSync.stream());
 }
 
+function images() {
+   return src('src/assets/*.{png,jpg}')
+      .pipe(dest('dist/resources'));
+}
+
 // Watch
 function watchTask() {
-   watch('src/**/*.{html,css}', series(html, css));
+   watch('src/**/*.{html,css}', parallel(html, css, images));
 }
 
 exports.dev = series(browserServe, watchTask);
-exports.default = parallel(html, css);
+exports.default = parallel(html, css, images);
