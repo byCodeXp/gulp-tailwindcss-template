@@ -1,10 +1,11 @@
 {
   "scripts": {
     "build": "rimraf dist && gulp",
-    "dev": "yarn build && gulp watch"
+    "dev": "yarn build && gulp dev"
   },
   "dependencies": {
     "autoprefixer": "^10.4.4",
+    "browser-sync": "^2.27.9",
     "gulp": "^4.0.2",
     "gulp-html-extend": "^1.1.6",
     "gulp-postcss": "^9.0.1",
