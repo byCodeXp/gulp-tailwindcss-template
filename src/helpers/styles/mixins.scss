@@ -1,0 +1,12 @@
+@mixin font-face($name, $weights, $format: "ttf") {
+
+  $font-weights: ("Regular": 400, "Medium": 500, "SemiBold": 600, "Bold": 700);
+
+  @each $weight in $weights {
+    @font-face {
+      font-family: $name;
+      font-weight: map-get($font-weights, $weight);
+      src: url("fonts/#{$name}/#{$name}-#{$weight}.#{$format}");
+    }
+  }
+}

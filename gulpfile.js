@@ -1,53 +1,53 @@
-const { src, dest, series, parallel, watch } = require('gulp');
+const {src, dest, series, parallel, watch} = require('gulp');
 const html_extend = require('gulp-html-extend');
 const postcss = require('gulp-postcss');
 const browserSync = require('browser-sync').create();
 
+const sass = require('gulp-sass')(require('sass'));
+
 // BrowserSync
 
 function browserServe(done) {
-   browserSync.init({
-      server: 'dist',
-      open: false,
-      injectChanges: true,
-      port: 1234
-   })
-   done();
-}
-
-function reloadBrowser(done) {
-   browserSync.reload();
-   done();
+    browserSync.init({
+        server: 'dist',
+        open: false,
+        injectChanges: true,
+        port: 1234
+    })
+    done();
 }
 
 // Tasks
 function html() {
-   return src('src/*.html')
-      .pipe(html_extend())
-      .pipe(dest('dist'))
-      .pipe(browserSync.stream());
+    return src('src/documents/*.html')
+        .pipe(html_extend())
+        .pipe(dest('dist'))
+        .pipe(browserSync.stream());
 }
 
 function css() {
-   return src('src/main.css')
-      .pipe(postcss())
-      .pipe(dest('dist'))
-      .pipe(browserSync.stream());
+    return src('src/main.scss')
+        .pipe(postcss())
+        .pipe(sass())
+        .pipe(dest('dist'))
+        .pipe(browserSync.stream());
 }
 
 function images() {
-   return src('src/assets/*.{png,jpg}')
-      .pipe(dest('dist/resources'));
+    return src('src/assets/pictures/*.{png,jpg}')
+        .pipe(dest('dist/resources'));
 }
 
 function fonts() {
-   return src('src/fonts/*.ttf')
-      .pipe(dest('dist/fonts'))
+    return src('src/assets/fonts/**/*.ttf')
+        .pipe(dest('dist/fonts'));
 }
 
 // Watch
 function watchTask() {
-   watch('src/**/*.{html,css}', parallel(images, fonts, html, css));
+    watch('src/documents/**/*.{html,css}', parallel(html, css));
+    watch('src/assets/fonts/**/*.ttf', fonts);
+    watch('src/assets/pictures/*.{png,jpg}', images);
 }
 
 exports.dev = series(browserServe, watchTask);

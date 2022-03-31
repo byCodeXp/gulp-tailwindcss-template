@@ -1,0 +1,12 @@
+@use 'helpers/styles/mixins' as *;
+
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+html,
+body {
+    height: 100%;
+}
+
+@include font-face("Poppins", "Regular")
